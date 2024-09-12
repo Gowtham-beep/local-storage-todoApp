@@ -36,8 +36,7 @@
 
     })
 
-    document.getElementById("userinformation").innerHTML=
-    "username: "+response.data.username+"Password: "+response.data.password
+    document.getElementById("userinformation").innerHTML="username: "+response.data.username+"Password: "+response.data.password
 
 
     }
@@ -113,7 +112,7 @@
         
         const delButton=document.createElement("button")
         delButton.innerHTML="Delete"
-        delButton.setAttribute("onclick",`deleteItem(${id})`)
+        delButton.setAttribute("onclick",`deletetodo(${id})`)
         newItem.appendChild(delButton)
         
         return newItem
@@ -121,9 +120,65 @@
         }
 
 
+        async function deletetodo(id){
+            try{
+                const response=await axios.delete("http://localhost:3000/delete-todo",{
+                    headers:{
+                    token:localStorage.getItem("token")
+                    },
+                    data: { id: id },
+                
+                    })
+                    const todos = response.data.todos;
+                    render(todos)
+                    }catch(error){
+                alert("Failed to delete todos: " + error.response.data.message)
+            }
 
+        }
 
-    function logout(){
+        async function toggleCompleteItem(id){
+            try {
+                const response = await axios.put("http://localhost:3000/complete-todo", 
+                     { id: id },
+                { 
+                    headers: {
+                        token: localStorage.getItem("token"),
+                    },
+                    
+                });
+                
+                const todos = response.data.todos;
+                render(todos); 
+            } catch (error) {
+                console.error("Failed to toggle todo completion:", error.response.data.message);
+            }
+        }
+
+        async function editItem(id){
+            try{
+            const newTitle=document.getElementById(`edit-input-${id}`).value
+            const response = await axios.put("http://localhost:3000/edit-todo", 
+                { id: id ,
+                newTitle:newTitle,
+                },
+                
+           { 
+               headers: {
+                   token: localStorage.getItem("token"),
+               },
+               
+           });
+           const todos = response.data.todos;
+                render(todos);
+            }catch(error){
+                console.error("Failed to Edit the todo");
+            }
+        } 
+        
+       
+
+ function logout(){
     localStorage.removeItem("token")
     alert("You are logged out")
     document.getElementById("userinformation").innerHTML=""

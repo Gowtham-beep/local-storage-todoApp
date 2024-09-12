@@ -102,7 +102,7 @@ function auth(req,res,next){
         password:founduser.password
     })
  })
-const todos=[]
+let todos=[]
 app.post("/add-todo",logger,auth,function(req,res){
     const input=req.body.input
     if(input){
@@ -133,11 +133,46 @@ app.get("/read-todo",logger,auth,function(req,res){
 
 })
 
-app.post("/edit-todo",logger,auth,function(req,res){
+app.put("/edit-todo", logger, auth, function(req, res) {
+    const { id, newTitle } = req.body;  // Use 'newTitle' instead of 'editedTitle'
+    
+    if (!newTitle || !newTitle.trim()) {
+        return res.status(400).json({ message: "Title cannot be empty" });
+    }
+    
+    todos = todos.map((todo, index) => {
+        if (index === id) {
+            if (todo.isEditing) {
+                todo.title = newTitle.trim();  // Update the title
+            }
+            todo.isEditing = !todo.isEditing;  // Toggle editing mode
+        }
+        return todo;
+    });
+    
+    res.json({
+        todos: todos,
+    });
+});
+
+app.put("/complete-todo",logger,auth,function(req,res){
+    const { id } = req.body;
+    if (todos[id] !== undefined) {
+        todos[id].isComplete = !todos[id].isComplete; // Toggle the completion status
+        res.json({ todos: todos });
+    } else {
+        res.json({ message: "Todos is empty" });
+    }
 
 })
 app.delete("/delete-todo",logger,auth,function(req,res){
-
+    const { id } = req.body;
+    if (todos !== null) {
+        todos = todos.filter((_, index) => index !== parseInt(id));
+        res.json({ todos: todos });
+    } else {
+        res.json({ message: "Todos is empty" });
+    }
 })
 
  app.listen(3000)
