@@ -15,28 +15,26 @@
         <input type="password" id="signup-password" placeholder="Enter password">
         <button onclick="signup()" >signup</button>
     </div>
-    <br>
     <div>
         signin
         <input type="text" id="signin-username" placeholder="Enter username">
         <input type="password" id="signin-password" placeholder="Enter password">
         <button onclick="signin()" >signin</button>
     </div>
-    <br>
     <!-- <div>
         user information:
         <div id="userinformation"></div>
     </div> -->
     <div>
         <button onclick="logout()">logout</button>
-    </div><br>
+    </div>
     <div >
         <input type="text" id="add-todos" placeholder="Enter the todo here ">
         <button onclick="addtodo()">add</button>
-    </div><br>
+    </div>
     <div>
         <button onclick="readtodo()">view Todos</button>
-    </div><br>
+    </div>
     <div>
         <ol id="todo-lists">
         </ol>

@@ -134,26 +134,18 @@ app.get("/read-todo",logger,auth,function(req,res){
 })
 
 app.put("/edit-todo", logger, auth, function(req, res) {
-    const { id, newTitle } = req.body;  
-    console.log(`Received id: ${id}, newTitle: ${newTitle}`); 
-    
-    if (!newTitle || !newTitle.trim()) {
-        return res.status(400).json({ message: "Title cannot be empty" });
+    const { id, newTitle } = req.body;  // Get the ID and newTitle from the request body
+
+    if (todos[id] !== undefined) {  // Check if the todo exists
+        todos[id].title = newTitle.trim();  // Update the title
+        // todos[id].isEditing = false;  
+        res.json({ todos: todos });
+    } else {
+        res.status(400).json({ message: "Todo not found" });
     }
-    
-    todos = todos.map((todo) => {
-        if (todo.id === id) {
-            if (todo.isEditing) {
-                todo.title = newTitle.trim();  
-            }
-            todo.isEditing = !todo.isEditing;  
-        }
-        return todo;
-    });
-    
-    res.json({
-        todos: todos,
-    });
+});
+app.get("/read-todos", logger, auth, function(req, res) {
+    res.json({ todos: todos });
 });
 
 app.put("/complete-todo",logger,auth,function(req,res){

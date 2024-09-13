@@ -1,0 +1,94 @@
+/* Styling for the todo list container */
+ul {
+    list-style-type: none;  /* Remove default bullets */
+    padding: 0;
+    margin: 0;
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style each todo item */
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for the todo items */
+  li:hover {
+    background-color: #f0f8ff;  /* Light blue on hover */
+  }
+  
+  /* Styling for the todo text */
+  li span {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Strikethrough effect for completed todos */
+  li span[style*="line-through"] {
+    color: #999;  /* Light grey for completed tasks */
+    text-decoration: line-through;
+  }
+  
+  /* Button styles */
+  button {
+    background-color: #4CAF50;  /* Green color */
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for buttons */
+  button:hover {
+    background-color: #45a049;  /* Darker green on hover */
+  }
+  
+  /* Different button colors */
+  button.complete {
+    background-color: #4CAF50;  /* Green for 'Complete' */
+  }
+  
+  button.undo {
+    background-color: #FF9800;  /* Orange for 'Undo' */
+  }
+  
+  button.edit {
+    background-color: #2196F3;  /* Blue for 'Edit' */
+  }
+  
+  button.delete {
+    background-color: #F44336;  /* Red for 'Delete' */
+  }
+  
+  button.save {
+    background-color: #2196F3;  /* Same blue for 'Save' */
+  }
+  
+  /* Style for mobile responsiveness */
+  @media (max-width: 600px) {
+    li {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    button {
+      margin-top: 5px;
+    }
+  }
+  
