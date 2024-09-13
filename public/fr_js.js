@@ -90,7 +90,7 @@
 
     function createComponenet(todo,id){
         const newItem=document.createElement("li")
-        newItem.setAttribute("id",`${id}`)
+        newItem.setAttribute("id",`todo-item-${id}`)
         if(todo.isEditing){
             newItem.innerHTML=`<input type="text" id="edit-input-${id}" value="${todo.title}">`
         }else{
@@ -155,26 +155,32 @@
             }
         }
 
-        async function editItem(id){
-            try{
-            const newTitle=document.getElementById(`edit-input-${id}`).value
-            const response = await axios.put("http://localhost:3000/edit-todo", 
-                { id: id ,
-                newTitle:newTitle,
-                },
+        async function editItem(id) {
+            try {
+                // Make sure the input field exists
+                const newTitle = document.getElementById(`edit-input-${id}`).value;
+                if (!newTitle) {
+                    console.error(`Input field with id edit-input-${id} not found`);
+                    return;
+                }
                 
-           { 
-               headers: {
-                   token: localStorage.getItem("token"),
-               },
-               
-           });
-           const todos = response.data.todos;
+                console.log(`New title: ${newTitle}`);  // Debugging
+                const response = await axios.put("http://localhost:3000/edit-todo", 
+                    { id: id, newTitle: newTitle },
+                    { headers: { token: localStorage.getItem("token") } }
+                );
+                
+                const todos = response.data.todos;
                 render(todos);
-            }catch(error){
-                console.error("Failed to Edit the todo");
+            } catch (error) {
+                if (error.response) {
+                    console.error("Error response:", error.response.data);
+                } else {
+                    console.error("Failed to Edit the todo", error);
+                }
             }
-        } 
+        }
+        
         
        
 

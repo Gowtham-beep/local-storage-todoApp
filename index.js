@@ -134,18 +134,19 @@ app.get("/read-todo",logger,auth,function(req,res){
 })
 
 app.put("/edit-todo", logger, auth, function(req, res) {
-    const { id, newTitle } = req.body;  // Use 'newTitle' instead of 'editedTitle'
+    const { id, newTitle } = req.body;  
+    console.log(`Received id: ${id}, newTitle: ${newTitle}`); 
     
     if (!newTitle || !newTitle.trim()) {
         return res.status(400).json({ message: "Title cannot be empty" });
     }
     
-    todos = todos.map((todo, index) => {
-        if (index === id) {
+    todos = todos.map((todo) => {
+        if (todo.id === id) {
             if (todo.isEditing) {
-                todo.title = newTitle.trim();  // Update the title
+                todo.title = newTitle.trim();  
             }
-            todo.isEditing = !todo.isEditing;  // Toggle editing mode
+            todo.isEditing = !todo.isEditing;  
         }
         return todo;
     });
